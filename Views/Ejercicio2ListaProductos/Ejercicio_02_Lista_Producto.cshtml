@@ -1,0 +1,149 @@
+﻿@model IEnumerable<TrabajoFinal_Unidad1_Web2_Estrella_Robles_Sosa.Models.ClsProducto>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Ejercicio 2</title>
+    <link type="text/css" href="~/Recursos/Content/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Recursos/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/Recursos/Scripts/bootstrap.min.js"></script>
+    <style>
+        .opacity {
+            background-color: rgb(60,81,135);
+            opacity: 0.8; /* Opacidad 60% */
+        }
+
+        .letra {
+            font-family: 'Segoe UI';
+            font-weight: bold;
+        }
+
+        .letra2 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body style="background-image:url('../../Recursos/fondo1.png')">
+    <nav class="navbar navbar-expand-lg navbar-dark opacity fixed-top">
+
+        <a class="navbar-brand">
+            <img src="~/Recursos/TRABAJO FINAL.png" width="245" alt="TrabajoFinalUnidad1">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="basicExampleNav">
+
+            <ul class="navbar-nav mr-auto" style="margin-left:auto; margin-right:auto">
+                <li class="nav-item ">
+                    @Html.ActionLink("INICIO", "Index", "Inicio", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 1", "Ejercicio1_Cronometro", "Ejercicio1Cronometro", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item active">
+                    @Html.ActionLink("EJERCICIO 2", "Ejercicio_02_Lista_Producto", "Ejercicio2ListaProductos", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item ">
+                    @Html.ActionLink("EJERCICIO 3", "Index", "Ejercicio3Ocurrencias", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 4", "Ejercicio_04_Numeros_Aleatorios", "Ejercicio4NumAleatorios", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 5", "Ejercicio_05_prestamo", "Ejercicio5Prestamo", null, new { @class = "nav-link letra" })
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+    <section class="container" style="margin-top: 100px;">
+        <div class="bg-white box-shadow py-5 px-4 px-sm-5">
+            <div class="row">
+                <div class="col-lg-12 pb-4 mb-3">
+                    <h5>
+                        <span class="d-inline-block bg-info text-white px-2 py-1">
+                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">2</font></font>
+                        </span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Lista de Productos </font></font>
+                    </h5>
+                    <hr>
+                    <form name="frmIngresar" action="Ejercicio_02_Lista_Producto" method="post">
+                        <div class="form-group ">
+                            <label>Ingrese nombre de Producto: </label>
+                            <input class="form-control col-lg-5 " type="text" name="valor1"  required/><br />                            
+                            <center>
+                            <input class="btn btn-primary" type="submit" name="submitButton" value="Agregar a Tabla A" />
+                            <input class="btn btn-primary" type="submit" name="submitButton" value="Agregar a Tabla B" />
+                            <input class="btn btn-success" type="submit" name="submitButton" value="Pasar a Tabla B" />
+                            <input class="btn btn-success" type="submit" name="submitButton" value="Pasar a Tabla A" />
+                            </center>
+                        </div>                        
+                    </form>
+                    <form name="frmIngresar" action="Ejercicio_02_Lista_Producto" method="post">
+                        <div class="form-group ">
+                            <center>
+                            <input class="btn btn-info" type="submit" name="submitButton" value="Pasar Todo a Tabla A" />
+                            <input class="btn btn-info" type="submit" name="submitButton" value="Pasar Todo a Tabla B" />
+
+
+                                <!--LIMPIAR TABLAS-->
+                            <input class="btn btn-warning float-right" type="submit" name="submitButton" value="Limpiar Tablas" />
+
+                            </center>
+                        </div>
+                    </form>
+                </div>
+                        
+                <div class="col-lg-6 pb-4 mb-3">                            
+                    <table class="table table-hover table-bordered " align="center">                               
+                        <thead class="thead-dark text-center">                                    
+                            <tr>                                        
+                                <th>Tabla A </th>                                    
+                            </tr>                                
+                        </thead>                                
+                        <tbody>                                   
+                            @foreach (var list in ViewBag.data_A)                                    
+                            {                                        
+                                <tr>                                            
+                                    <td><center>@list</center></td>                                        
+                                </tr>
+                                }                                
+                        </tbody>                            
+                    </table>                        
+                </div>
+                        
+                <div class="col-lg-6 pb-4 mb-3">                            
+                    <table class="table table-hover table-bordered " align="center">                                
+                        <thead class="thead-dark text-center">                                    
+                            <tr>                                        
+                                <th>Tabla B </th>                                    
+                            </tr>                                
+                        </thead>                                
+                        <tbody>                                    
+                            @foreach (var list2 in ViewBag.data_B)                                    
+                            {                                        
+                                <tr>                                            
+                                    <td><center>@list2</center></td>                                        
+                                </tr>                                    
+                                }                                
+                        </tbody>                            
+                    </table>                        
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

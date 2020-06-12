@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link type="text/css" href="~/Recursos/Content/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Recursos/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/Recursos/Scripts/bootstrap.min.js"></script>
+    <style>
+        .opacity {
+            background-color: rgb(60,81,135);
+            opacity: 0.8; /* Opacidad 60% */
+        }
+
+        .letra {
+            font-family: 'Segoe UI';
+            font-weight: bold;
+        }
+
+        .letra2 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body style="background-image:url('../../Recursos/fondo1.png')">
+    <nav class="navbar navbar-expand-lg navbar-dark opacity fixed-top">
+
+        <a class="navbar-brand" >
+            <img src="~/Recursos/TRABAJO FINAL.png" width="245" alt="TrabajoFinalUnidad1">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="basicExampleNav">
+
+            <ul class="navbar-nav mr-auto" style="margin-left:auto; margin-right:auto">
+                <li class="nav-item active">
+                    @Html.ActionLink("INICIO", "Index", "Inicio", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 1", "Ejercicio1_Cronometro", "Ejercicio1Cronometro", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 2", "Ejercicio_02_Lista_Producto", "Ejercicio2ListaProductos", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 3", "Index", "Ejercicio3Ocurrencias", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 4", "Ejercicio_04_Numeros_Aleatorios", "Ejercicio4NumAleatorios", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 5", "Ejercicio_05_prestamo", "Ejercicio5Prestamo", null, new { @class = "nav-link letra" })
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+    <section class=" bg-center-top bg-no-repeat position-relative pt-5 pb-4 pb-md-5">
+        <div class="img-cover bg-auto d-none d-md-block"></div>
+        <div class="container bg-content py-5 my-md-5 text-center text-md-left">
+            <div class="pb-md-5 mt-5 mb-md-5">
+                <div class="d-inline-block h6 text-lg bg-white px-3 py-2 mt-md-4">
+                    UNIDAD I
+                </div>
+                <h1 class="display-3 text-white">
+                    <span class="d-block break-word letra2">Trabajo Final</span>
+                    <span class="d-block break-word">Desarrollo de</span>
+                    <span class="d-block break-word">Aplicaciones Web II</span>
+                </h1>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>

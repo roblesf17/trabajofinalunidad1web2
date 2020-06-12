@@ -1,0 +1,249 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Ejercicio 1</title>
+    <link type="text/css" href="~/Recursos/Content/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/Recursos/Content/CssEstilos.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Recursos/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/Recursos/Scripts/bootstrap.min.js"></script>
+    <style>
+        .opacity {
+            background-color: rgb(60,81,135);
+            opacity: 0.8; /* Opacidad 60% */
+        }
+
+        .letra {
+            font-family: 'Segoe UI';
+            font-weight: bold;
+        }
+
+        .letra2 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        var hora = 0;
+        var minuto = 0;
+        var segundo = 0;
+        var decima = 0;
+        var display = "";
+        var contador_vueltas = 0;
+        var estado = 1; //0=activo 1=detenido
+
+        //FUNCIÓN PARA MOSTRAR DATOS EN EL CRONOMETRO
+
+        function cronometro() {
+            if (estado == 0) {
+                decima += 1;
+                if (decima > 9) { decima = 0; segundo += 1; }
+                if (segundo > 59) { segundo = 0; minuto += 1; }
+                if (minuto > 59) { minuto = 0; hora += 1; }
+
+                if (hora < 10) { display = "0" + hora; }
+                else { display = hora; }
+
+                if (minuto < 10) { display = display + ":0" + minuto; }
+                else { display = display + ":" + minuto; }
+
+                if (segundo < 10) { display = display + ":0" + segundo; }
+                else { display = display + ":" + segundo; }
+
+                display = display + ":" + decima;
+
+                document.getElementById("mostrar_cronometro").value = display;
+                setTimeout("cronometro()", 100);
+            }
+        }
+
+
+        //FUNCION PARA BOTÓN INICIAR
+
+        function iniciar() {
+            if (estado == 1) {
+                estado = 0;
+                cronometro();
+            }
+        }
+
+        //FUNCION PARA BOTÓN PAUSAR
+        function pausar() {
+            estado = 1;
+        }
+
+
+        //FUNCION PARA BOTÓN REINICIAR
+        function reiniciar() {
+            if (estado == 1) {
+                hora = 0;
+                minuto = 0;
+                segundo = 0;
+                decima = 0;
+
+                document.getElementById("mostrar_cronometro").value = "00:00:00:0";
+            }
+        }
+
+        //FUNCION PARA BOTÓN GUARDAR VUELTA
+
+        function intertiempo() {
+            if (estado == 0) {
+                contador_vueltas += 1;
+                document.getElementById("lista_vueltas").appendChild(document.createTextNode(contador_vueltas + ". " + display));
+                document.getElementById("lista_vueltas").appendChild(document.createElement("br"));
+            }
+        }
+
+        //FUNCION PARA BOTÓN LIMPIAR
+
+        function limpiar() {
+            if (estado == 1) {
+                contador_vueltas += 1;
+                document.getElementById("lista_vueltas").innerHTML = "";
+                
+            }
+        }
+
+        //FUNCION HORA RELOJ
+
+        function startTime() {
+            var hoy = new Date();
+            var hr = hoy.getHours();
+            var min = hoy.getMinutes();
+            var sec = hoy.getSeconds();
+            ap = (hr < 12) ? "<span>AM</span>" : "<span>PM</span>";
+            hr = (hr == 0) ? 12 : hr;
+            hr = (hr > 12) ? hr - 12 : hr;
+            hr = checkTiempo(hr);
+            min = checkTiempo(min);
+            sec = checkTiempo(sec);
+            document.getElementById("clock").innerHTML = hr + ":" + min + ":" + sec + " " + ap;
+
+            var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            var dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'];
+            var curDiaSemana = dias[hoy.getDay()];
+            var curDia = hoy.getDate();
+            var curMes = meses[hoy.getMonth()];
+            var curAnio = hoy.getFullYear();
+            var fecha = curDiaSemana + ", " + curDia + " " + curMes + " " + curAnio;
+            document.getElementById("date").innerHTML = fecha;
+
+            var time = setTimeout(function () { startTime() }, 500);
+        }
+
+        function checkTiempo(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+
+    </script>
+</head>
+
+<body style="background-image:url('../../Recursos/fondo1.png')" onload="startTime()">
+    <nav class="navbar navbar-expand-lg navbar-dark opacity fixed-top">
+
+        <a class="navbar-brand">
+            <img src="~/Recursos/TRABAJO FINAL.png" width="245" alt="TrabajoFinalUnidad1">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="basicExampleNav">
+
+            <ul class="navbar-nav mr-auto" style="margin-left:auto; margin-right:auto">
+                <li class="nav-item ">
+                    @Html.ActionLink("INICIO", "Index", "Inicio", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item active" >
+                    @Html.ActionLink("EJERCICIO 1", "Ejercicio1_Cronometro", "Ejercicio1Cronometro", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 2", "Ejercicio_02_Lista_Producto", "Ejercicio2ListaProductos", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item ">
+                    @Html.ActionLink("EJERCICIO 3", "Index", "Ejercicio3Ocurrencias", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 4", "Ejercicio_04_Numeros_Aleatorios", "Ejercicio4NumAleatorios", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 5", "Ejercicio_05_prestamo", "Ejercicio5Prestamo", null, new { @class = "nav-link letra" })
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+    <section class="container" style="margin-top: 100px;">
+        <div class="bg-white box-shadow py-5 px-4 px-sm-5">
+            <div class="row">
+                <div class="col-lg-6 pb-4 mb-3">
+                    <h5>
+                        <span class="d-inline-block bg-info text-white px-2 py-1">
+                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font>
+                        </span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Reloj </font></font>
+                    </h5>
+                    <hr>
+
+                    <br /><br />
+                    <div id="clockdate">
+                      <div class="clockdate-wrapper">
+                        <div id="clock"></div>
+                        <div id="date"></div>
+                      </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6 pb-4 mb-3">
+                    <h5>
+                        <span class="d-inline-block bg-info text-white px-2 py-1">
+                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1</font></font>
+                        </span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Cronómetro </font></font>
+                    </h5>
+                    <hr>
+                    <br />
+
+                    <input id="mostrar_cronometro" class="form-control" style="text-align:center; font-size:35px" value="00:00:00:0" disabled="disabled" /><br /><br />
+
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <!--BOTÓN INICIAR-->
+                            <button class="btn btn-success" onclick="javascript: iniciar();">INICIAR</button>
+
+                            <!--BOTÓN DETENER-->
+                            <button class="btn btn-danger" onclick="javascript: pausar();">PAUSAR</button>
+
+                            <!--BOTÓN REINICIAR-->
+                            <button class="btn btn-info" onclick="javascript: reiniciar();">REINICIAR</button><br /><br />
+
+                            <!--BOTÓN GUARDAR VUELTA-->
+                            <button class="btn btn-warning" onclick="javascript:intertiempo();">GUARDAR VUELTA</button>
+                            <!--BOTÓN LIMPIAR LISTA-->
+                            <button class="btn btn-warning" onclick="javascript: limpiar();">LIMPIAR LISTA</button>
+
+                            <div id="lista_vueltas">
+                            </div>
+                        </div>                   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

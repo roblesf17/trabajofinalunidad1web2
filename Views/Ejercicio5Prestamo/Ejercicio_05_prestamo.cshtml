@@ -1,0 +1,216 @@
+﻿@model TrabajoFinal_Unidad1_Web2_Estrella_Robles_Sosa.Models.ClsPrestamo
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Ejercicio 5</title>
+    <link type="text/css" href="~/Recursos/Content/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Recursos/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/Recursos/Scripts/bootstrap.min.js"></script>
+    <style>
+        .opacity {
+            background-color: rgb(60,81,135);
+            opacity: 0.8; /* Opacidad 60% */
+        }
+
+        .letra {
+            font-family: 'Segoe UI';
+            font-weight: bold;
+        }
+
+        .letra2 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-weight: bold;
+        }
+
+        /************************************/
+
+
+    </style>
+
+    <script>
+
+        function validar(e, punto) {
+            tecla = (document.all) ? e.keyCode : e.which;
+            if (tecla < 48 || tecla > 57) {
+                if (punto && (tecla == 46 || tecla == 44)) {
+                    return true;
+                }
+                return false
+            }
+
+
+        }
+
+        function calcula() {
+
+            f = document.forms[0]; //document.forms es el array que contiene todos los formularios de la página  // primer formulario
+            plazo = 12;
+            /*plazo=(f.plazo[0].checked)?f.plazo[0].value:f.plazo[1].value; */
+
+            interesMensual = parseFloat(f.intereses.value) / parseInt(plazo); //EL INTERES QUE ESTA INGRESANDO LO DIVIDIMOS EN LA CANTIDAD DEL PLAZO
+
+            pagoTotal = parseFloat(f.capital.value) + parseFloat(f.capital.value * f.cuotas.value * interesMensual / 100); //PAGO TOTAL
+
+            codigo = "<table border=1>";
+            codigo += "<tr>";               //El elemento tr representa a una fila de una tabla
+            codigo += "<td>Cuota nº</td>";
+            codigo += "<td>Cuota</td>";
+            codigo += "<td>Amortización</td>";
+            codigo += "<td>Interés</td>";
+            codigo += "<td>Falta por pagar</td>";
+
+            falta = pagoTotal;
+
+            for (a = 1; a <= f.cuotas.value; a++) {
+
+                //cuotas
+                cuota = Math.ceil(pagoTotal / f.cuotas.value * 100) / 100; //La función Math.ceil() devuelve el entero mayor o igual más próximo a un número dado.
+
+                amortizacion = parseInt(f.capital.value / f.cuotas.value * 100) / 100;
+
+
+                interes = parseInt(100 * (cuota - amortizacion)) / 100;
+
+
+                falta = parseInt(100 * (falta - cuota)) / 100;
+
+                codigo += "<tr>";
+                codigo += "<td>" + a + "</td>";
+                codigo += "<td>";
+
+                if (a == f.cuotas.value) {
+                    cuota = parseInt(100 * (cuota + falta)) / 100; falta = 0
+                }
+
+                codigo += cuota
+                codigo += "</td>";
+                codigo += "<td>";
+                codigo += amortizacion
+                codigo += "</td>";
+                codigo += "<td>";
+                codigo += interes;
+                codigo += "</td>";
+                codigo += "<td>";
+                codigo += falta;
+                codigo += "</td>";
+                codigo += "</tr>";
+            }
+            codigo += "</table>";
+            prestamo.innerHTML = codigo; //Element.innerHTML: devuelve o establece la sintaxis HTML describiendo los descendientes del elemento.
+        }
+
+        function desenfoque(esto) {
+            esto.value = esto.value.split(',').join('.');
+            if (isNaN(esto.value) || esto.value < 0) {
+                esto.value = ''
+            }
+        }
+    </script>
+
+</head>
+
+<body style="background-image:url('../../Recursos/fondo1.png')">
+    <nav class="navbar navbar-expand-lg navbar-dark opacity fixed-top">
+
+        <a class="navbar-brand">
+            <img src="~/Recursos/TRABAJO FINAL.png" width="245" alt="TrabajoFinalUnidad1">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="basicExampleNav">
+
+            <ul class="navbar-nav mr-auto" style="margin-left:auto; margin-right:auto">
+                <li class="nav-item ">
+                    @Html.ActionLink("INICIO", "Index", "Inicio", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 1", "Ejercicio1_Cronometro", "Ejercicio1Cronometro", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 2", "Ejercicio_02_Lista_Producto", "Ejercicio2ListaProductos", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item ">
+                    @Html.ActionLink("EJERCICIO 3", "Index", "Ejercicio3Ocurrencias", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("EJERCICIO 4", "Ejercicio_04_Numeros_Aleatorios", "Ejercicio4NumAleatorios", null, new { @class = "nav-link letra" })
+                </li>
+                <li class="nav-item active">
+                    @Html.ActionLink("EJERCICIO 5", "Ejercicio_05_prestamo", "Ejercicio5Prestamo", null, new { @class = "nav-link letra" })
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+    <section class="container" style="margin-top: 100px;">
+        <div class="bg-white box-shadow py-5 px-4 px-sm-5">
+            <div class="row">
+                <div class="col-lg-12 pb-4 mb-3">
+                    <h5>
+                        <span class="d-inline-block bg-info text-white px-2 py-1">
+                            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5</font></font>
+                        </span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Simulador de Créditos Empresariales y Consumo </font></font>
+                    </h5>
+                    <hr>
+                    <form action="javascript:calcula(this.form)">
+                        <div class="form-group">
+                            <label for="lbl_capital">Capital:</label>
+                            <input class="form-control"
+                                   type="text"
+                                   name="capital"
+                                   value="0"
+                                   size="10"
+                                   maxlength="10"
+                                   onkeypress="return validar(event,true)"
+                                   onBlur="desenfoque(this)"
+                                   onFocus="if(this.value==0){this.value=''}">
+                        </div>
+
+
+                        <!--VALORES DE CADA TIPO DE PRESTAMOS-->
+                        <div class="form-group">
+                            <label for="lbl_interes">Interés(%):</label>
+                            <select class="form-control" name="intereses" id="intereses">
+                                <option value="11.02">PERSONAL (11.02%)</option>
+                                <option value="16.08">MICROEMPRESA (16.08%)</option>
+                                <option value="25.59">MI TERRENITO (16.08%)</option>
+                                <option value="24.36">CREDI CONSTRUYE (24.36%)</option>
+                                <option value="23.14">CREDI ESCOLAR (23.14%)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="lbl_Ncuota">Nº de cuotas:</label>
+                            <input class="form-control"
+                                   onkeypress="return validar(event)"
+                                   type="text"
+                                   name="cuotas"
+                                   value="0"
+                                   size="3"
+                                   maxlength="3"
+                                   onBlur="desenfoque(this)"
+                                   onFocus="if(this.value==0){this.value=''}">
+                        </div>
+                        <input class="btn btn-primary" type="submit" name="calcular" id="calcular" value="Calcular">
+                    </form>
+                </div>
+
+                <div id="prestamo">
+
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
